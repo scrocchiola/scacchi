@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Scacchi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <body style="background-color: black; color: white;"></body>
+    <div class="loader">
+
+        <div class="queen">♛</div>
+
+        <div class="progress-bar">
+            <div class="rook">♜</div>
+        </div>
+
+    </div>
+
+    <center>
+
+        <!-- Rettangolo bianco trasparente con testo nero -->
+        <table bgcolor="#FFFFFFF" width="1500" height="100" border="0" cellpadding="0" cellspacing="0"
+            style="opacity:0.7; margin-top:10px;">
+            <tr>
+                <td align="center" valign="middle">
+                    <font face="Fantasy" color="#000000" size="150">IL GIOCO DEGLI SCACCHI</font>
+                </td>
+            </tr>
+        </table>
+    </center>
+
+    <!-- Alfiere-menu in alto a destra -->
+    <div class="bishop" onclick="toggleMenu()">♗</div>
+
+    <div id="menu" class="menu">
+        <a href="storia.html">♙ La Storia</a>
+        <a href="pagina2.html">♙ Pagina 2</a>
+        <a href="pagina3.html">♙ Pagina 3</a>
+    </div>
+
+
+
+    <div id="main-content">
+        <div class="chessboard">
+            <div class="square light">♜</div>
+            <div class="square dark">♞</div>
+            <div class="square light">♝</div>
+            <div class="square dark">♛</div>
+            <div class="square light">♚</div>
+            <div class="square dark">♝</div>
+            <div class="square light">♞</div>
+            <div class="square dark">♜</div>
+            <div class="square dark">♟</div>
+            <div class="square light">♟</div>
+            <div class="square dark">♟</div>
+            <div class="square light">♟</div>
+            <div class="square dark">♟</div>
+            <div class="square light">♟</div>
+            <div class="square dark">♟</div>
+            <div class="square light">♟</div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square dark"></div>
+            <div class="square light"></div>
+            <div class="square light">♙</div>
+            <div class="square dark">♙</div>
+            <div class="square light">♙</div>
+            <div class="square dark">♙</div>
+            <div class="square light">♙</div>
+            <div class="square dark">♙</div>
+            <div class="square light">♙</div>
+            <div class="square dark">♙</div>
+            <div class="square dark">♖</div>
+            <div class="square light">♘</div>
+            <div class="square dark">♗</div>
+            <div class="square light">♕</div>
+            <div class="square dark">♔</div>
+            <div class="square light">♗</div>
+            <div class="square dark">♘</div>
+            <div class="square light">♖</div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener("load", function () {
+            setTimeout(function () {
+                document.querySelector(".loader").style.display = "none";
+                // Mostra la scacchiera posizionata in basso
+                document.getElementById("main-content").style.display = "block";
+            }, 4000);
+        });
+    </script>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("menu");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
+    </script>
+</body>
+
+</html>
