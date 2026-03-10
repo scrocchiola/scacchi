@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Il mio sito</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="loader">
+
+        <div class="queen">♛</div>
+
+        <div class="progress-bar">
+            <div class="rook">♜</div>
+        </div>
+
+    </div>
+    <h1>Benvenuto nel sito</h1>
+
+    <div class="queen-loader">♛</div>
+
+    <p>Questo è il contenuto della pagina.</p>
+
+</body>
+
+<script>
+    window.addEventListener("load", function () {
+
+        setTimeout(function () {
+            document.querySelector(".loader").style.display = "none";
+        }, 4000);
+
+    });
+</script>
+
+</html>
