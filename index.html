@@ -5,134 +5,143 @@
     <meta charset="UTF-8">
     <title>Scacchi</title>
     <link rel="stylesheet" href="style.css">
+
 </head>
 
-<body>
+<body style="background-color: black; color: white; margin: 0; padding: 0;">
 
-    <body style="background-color: black; color: white;"></body>
     <div class="loader">
-
         <div class="queen">♛</div>
-
         <div class="progress-bar">
             <div class="rook">♜</div>
         </div>
-
     </div>
-
-    <center>
-
-        <!-- Rettangolo bianco trasparente con testo nero -->
-        <table bgcolor="#FFFFFFF" width="1500" height="100" border="0" cellpadding="0" cellspacing="0"
-            style="opacity:0.7; margin-top:10px;">
-            <tr>
-                <td align="center" valign="middle">
-                    <font face="Fantasy" color="#000000" size="150">IL GIOCO DEGLI SCACCHI</font>
-                </td>
-            </tr>
-        </table>
-    </center>
-
-    <!-- Alfiere-menu in alto a destra -->
-    <div class="bishop" onclick="toggleMenu()">♗</div>
-
-    <div id="menu" class="menu">
-        <a href="storia.html">♙ La Storia</a>
-        <a href="pagina2.html">♙ Pagina 2</a>
-        <a href="pagina3.html">♙ Pagina 3</a>
-    </div>
-
-
 
     <div id="main-content">
-        <div class="chessboard">
-            <div class="square light">♜</div>
-            <div class="square dark">♞</div>
-            <div class="square light">♝</div>
-            <div class="square dark">♛</div>
-            <div class="square light">♚</div>
-            <div class="square dark">♝</div>
-            <div class="square light">♞</div>
-            <div class="square dark">♜</div>
-            <div class="square dark">♟</div>
-            <div class="square light">♟</div>
-            <div class="square dark">♟</div>
-            <div class="square light">♟</div>
-            <div class="square dark">♟</div>
-            <div class="square light">♟</div>
-            <div class="square dark">♟</div>
-            <div class="square light">♟</div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square dark"></div>
-            <div class="square light"></div>
-            <div class="square light">♙</div>
-            <div class="square dark">♙</div>
-            <div class="square light">♙</div>
-            <div class="square dark">♙</div>
-            <div class="square light">♙</div>
-            <div class="square dark">♙</div>
-            <div class="square light">♙</div>
-            <div class="square dark">♙</div>
-            <div class="square dark">♖</div>
-            <div class="square light">♘</div>
-            <div class="square dark">♗</div>
-            <div class="square light">♕</div>
-            <div class="square dark">♔</div>
-            <div class="square light">♗</div>
-            <div class="square dark">♘</div>
-            <div class="square light">♖</div>
+
+        <center>
+            <table bgcolor="#FFFFFF" width="90%" border="0" cellpadding="0" cellspacing="0"
+                style="opacity:0.7; margin-top:20px; max-width:1500px;">
+                <tr>
+                    <td align="center" valign="middle" style="padding: 20px;">
+                        <font face="Fantasy" color="#000000" size="7">IL GIOCO DEGLI SCACCHI</font>
+                    </td>
+                </tr>
+            </table>
+        </center>
+
+        <div class="bishop" onclick="toggleMenu()"
+            style="font-size: 40px; cursor: pointer; position: fixed; top: 10px; right: 20px;">♗</div>
+
+        <div id="menu" class="menu">
+            <a href="storia.html">♙ La Storia</a>
+            <a href="pagina2.html">♙ Pagina 2</a>
+            <a href="pagina3.html">♙ Pagina 3</a>
+            <a href="pagina4.html">♙ Pagina 4</a>
+            <a href="pagina5.html">♙ Pagina 5</a>
+            <a href="pagina6.html">♙ Pagina 6</a>
+            <a href="pagina7.html">♙ Pagina 7</a>
+            <a href="pagina8.html">♙ Pagina 8</a>
+            <a href="pagina9.html">♙ Pagina 9</a>
         </div>
-    </div>
 
-    <script>
-        window.addEventListener("load", function () {
-            setTimeout(function () {
-                document.querySelector(".loader").style.display = "none";
-                // Mostra la scacchiera posizionata in basso
-                document.getElementById("main-content").style.display = "block";
-            }, 4000);
-        });
-    </script>
 
-    <script>
-        function toggleMenu() {
-            var menu = document.getElementById("menu");
-            if (menu.style.display === "block") {
-                menu.style.display = "none";
-            } else {
-                menu.style.display = "block";
+        <div class="chess-container">
+            <div class="t w"><a href="torre.html">♜</a></div>
+            <div class="t b"><a href="cavallo.html">♞</a></div>
+            <div class="t w"><a href="alfiere.html">♝</a></div>
+            <div class="t b"><a href="regina.html">♛</a></div>
+            <div class="t w"><a href="re.html">♚</a></div>
+            <div class="t b">♝</div>
+            <div class="t w">♞</div>
+            <div class="t b">♜</div>
+
+            <div class="t b"><a href="pedone.html">♟</a></div>
+            <div class="t w">♟</div>
+            <div class="t b">♟</div>
+            <div class="t w">♟</div>
+            <div class="t b">♟</div>
+            <div class="t w">♟</div>
+            <div class="t b">♟</div>
+            <div class="t w">♟</div>
+
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+            <div class="t b"></div>
+            <div class="t w"></div>
+
+            <div class="t w">♙</div>
+            <div class="t b">♙</div>
+            <div class="t w">♙</div>
+            <div class="t b">♙</div>
+            <div class="t w">♙</div>
+            <div class="t b">♙</div>
+            <div class="t w">♙</div>
+            <div class="t b">♙</div>
+
+            <div class="t b">♖</div>
+            <div class="t w">♘</div>
+            <div class="t b">♗</div>
+            <div class="t w">♕</div>
+            <div class="t b">♔</div>
+            <div class="t w">♗</div>
+            <div class="t b">♘</div>
+            <div class="t w">♖</div>
+        </div>
+
+
+
+        <script>
+            // Gestione schermata di caricamento
+            window.addEventListener("load", function () {
+                setTimeout(function () {
+                    // Nasconde il loader
+                    document.querySelector(".loader").style.display = "none";
+                    // Mostra il contenuto principale
+                    document.getElementById("main-content").style.display = "block";
+                }, 4000); // 4 secondi
+            });
+
+            // Funzione per aprire/chiudere il menu
+            function toggleMenu() {
+                var menu = document.getElementById("menu");
+                if (menu.style.display === "block") {
+                    menu.style.display = "none";
+                } else {
+                    menu.style.display = "block";
+                }
             }
-        }
-    </script>
+        </script>
+
+
 </body>
 
 </html>
