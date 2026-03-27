@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tutorial Scacchi: La Regina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="icon" type="image/jpeg" href="https://i.pinimg.com/1200x/d8/d0/3d/d8d03d17c45d8b1554a011132e26832e.jpg">
+
+    <style>
+        /* RESET E SFONDO */
+        body {
+            background-color: #050505;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)),
+                url('https://i.pinimg.com/1200x/a5/7c/aa/a57caa28dda362043d8dc749836aae7d.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* HEADER TITOLO */
+        .header-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .piece-main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 45px;
+            background: linear-gradient(to bottom, #fff3a3, #ffd700, #b8860b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* MAIN WRAPPER */
+        .main-wrapper {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            margin-bottom: 50px;
+        }
+
+        /* SCACCHIERA 3D */
+        .chess-3d-wrapper {
+            perspective: 1000px;
+        }
+
+        .chess-container {
+            display: grid;
+            grid-template-columns: repeat(8, 55px);
+            grid-template-rows: repeat(8, 55px);
+            border: 12px solid #2a1a0a;
+            background-color: #000;
+            transform: rotateX(20deg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+            user-select: none;
+        }
+
+        .t {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            width: 55px;
+            height: 55px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .w {
+            background: #d2b48c;
+            background-image: url('https://www.transparenttextures.com/patterns/penta.png');
+        }
+
+        .b {
+            background: #3e2723;
+            background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
+        }
+
+        .t a,
+        .gold-piece {
+            text-decoration: none;
+            color: #FFD700 !important;
+            z-index: 5;
+            transition: 0.3s;
+            display: block;
+            animation: gold-glow 2.5s infinite ease-in-out;
+        }
+
+        @keyframes gold-glow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 2px #FFD700);
+            }
+
+            50% {
+                filter: drop-shadow(0 0 10px #FFD700);
+            }
+        }
+
+        .selected {
+            background-color: rgba(255, 215, 0, 0.4) !important;
+        }
+
+        .path::after {
+            content: "";
+            width: 15px;
+            height: 15px;
+            background-color: rgba(255, 60, 60, 0.8);
+            box-shadow: 0 0 10px red;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 10;
+        }
+
+        /* BOX ISTRUZIONI */
+        .istruzioni-box {
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #eee;
+            border-left: 5px solid #FFD700;
+            width: 350px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .istruzioni-box h3 {
+            font-family: 'Cinzel';
+            color: #FFD700;
+            margin-top: 0;
+        }
+
+        /* MENU ALFIERE - STILE INDEX IDENTICO */
+        .bishop-trigger {
+            font-size: 45px;
+            color: #FFD700;
+            cursor: pointer;
+            position: fixed;
+            top: 15px;
+            right: 25px;
+            z-index: 1001;
+            transition: 0.4s;
+        }
+
+        .bishop-trigger:hover {
+            transform: rotate(25deg) scale(1.2);
+            color: #fff;
+            text-shadow: 0 0 25px #FFD700;
+        }
+
+        .menu {
+            display: none;
+            position: fixed;
+            top: 75px;
+            right: 25px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid #FFD700;
+            width: 200px;
+            z-index: 1000;
+        }
+
+        .menu.show {
+            display: block;
+        }
+
+        .menu a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px;
+            border-bottom: 1px solid #222;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            background: #FFD700;
+            color: #000;
+            padding-left: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-container">
+        <h1 class="piece-main-title">La Regina</h1>
+    </div>
+
+    <div class="bishop-trigger" onclick="toggleMenu()">♗</div>
+    <div id="menu" class="menu">
+        <a href="storia.html">♙ La Storia</a>
+        <a href="come_giocare.html">♙ Come si gioca</a>
+        <a href="pagina3.html">♙ Pagina 3</a>
+        <a href="pagina4.html">♙ Pagina 4</a>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="chess-3d-wrapper">
+            <div class="chess-container" id="board">
+                <div class="t w"><a href="torre.html">♜</a></div>
+                <div class="t b">♞</div>
+                <div class="t w">♝</div>
+                <div class="t b" style="color:#fff">♛</div>
+                <div class="t w"><a href="re.html">♚</a></div>
+                <div class="t b">♝</div>
+                <div class="t w">♞</div>
+                <div class="t b"><a href="torre.html">♜</a></div>
+                <div class="t b">♙</div>
+                <div class="t w">♙</div>
+                <div class="t b">♙</div>
+                <div class="t w">♙</div>
+                <div class="t b">♙</div>
+                <div class="t w">♙</div>
+                <div class="t b">♙</div>
+                <div class="t w">♙</div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t w"><span class="gold-piece">♙</span></div>
+                <div class="t b"><span class="gold-piece">♙</span></div>
+                <div class="t w"><span class="gold-piece">♙</span></div>
+                <div class="t b"><span class="gold-piece">♙</span></div>
+                <div class="t w"><span class="gold-piece">♙</span></div>
+                <div class="t b"><span class="gold-piece">♙</span></div>
+                <div class="t w"><span class="gold-piece">♙</span></div>
+                <div class="t b"><span class="gold-piece">♙</span></div>
+                <div class="t b"><a href="torre.html">♖</a></div>
+                <div class="t w">♘</div>
+                <div class="t b">♗</div>
+                <div class="t w"><span class="gold-piece">♕</span></div>
+                <div class="t b"><a href="re.html">♔</a></div>
+                <div class="t w">♗</div>
+                <div class="t b">♘</div>
+                <div class="t w"><a href="torre.html">♖</a></div>
+            </div>
+        </div>
+
+        <div class="istruzioni-box">
+            <h3>Tutorial Regina:</h3>
+            <p>La Regina è il pezzo più potente sulla scacchiera.</p>
+            <p>1. Libera la sua traiettoria muovendo un <strong>Pedone dorato</strong>.</p>
+            <p>2. Seleziona la <strong>Regina (♕)</strong> per visualizzare i possibili movimenti.</p>
+        </div>
+    </div>
+
+    <script>
+        // Funzione Gestione Menu
+        function toggleMenu() { document.getElementById("menu").classList.toggle("show"); }
+
+        // Chiusura automatica menu se clicchi fuori
+        window.onclick = function (event) {
+            if (!event.target.matches('.bishop-trigger')) {
+                const menu = document.getElementById("menu");
+                if (menu.classList.contains('show')) {
+                    menu.classList.remove('show');
+                }
+            }
+        }
+
+        // Logica Scacchiera
+        document.addEventListener('DOMContentLoaded', () => {
+            const tiles = document.querySelectorAll('.t');
+            let selected = null;
+
+            tiles.forEach((tile, index) => {
+                tile.addEventListener('click', () => {
+                    const piece = tile.innerText.trim();
+                    if (tile.classList.contains('path')) {
+                        movePiece(tile);
+                        return;
+                    }
+                    resetBoard();
+
+                    if (['♕', '♛', '♙', '♟'].includes(piece)) {
+                        selected = { el: tile, idx: index, type: piece };
+                        tile.classList.add('selected');
+                        if (piece === '♕' || piece === '♛') showQueenMoves(index);
+                        if (piece === '♙') showPawnMoves(index, -1);
+                        if (piece === '♟') showPawnMoves(index, 1);
+                    }
+                });
+            });
+
+            function showQueenMoves(idx) {
+                const r = Math.floor(idx / 8), c = idx % 8;
+                const directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+                directions.forEach(d => {
+                    let nr = r + d[0], nc = c + d[1];
+                    while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
+                        const targetTile = tiles[nr * 8 + nc];
+                        if (targetTile.innerText.trim() !== "") break;
+                        targetTile.classList.add('path');
+                        nr += d[0]; nc += d[1];
+                    }
+                });
+            }
+
+            function showPawnMoves(idx, dir) {
+                const r = Math.floor(idx / 8), c = idx % 8;
+                let nr = r + dir;
+                if (nr >= 0 && nr < 8 && tiles[nr * 8 + c].innerText.trim() === "") {
+                    tiles[nr * 8 + c].classList.add('path');
+                    if ((dir === -1 && r === 6) || (dir === 1 && r === 1)) {
+                        let nr2 = r + (dir * 2);
+                        if (tiles[nr2 * 8 + c].innerText.trim() === "") tiles[nr2 * 8 + c].classList.add('path');
+                    }
+                }
+            }
+
+            function movePiece(target) {
+                target.innerHTML = selected.el.innerHTML;
+                selected.el.innerHTML = "";
+                resetBoard();
+            }
+
+            function resetBoard() {
+                tiles.forEach(t => t.classList.remove('selected', 'path'));
+                selected = null;
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tutorial Scacchi: Alfiere e Pedoni</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpeg" href="https://i.pinimg.com/736x/7a/0d/34/7a0d34667d904b54f0580a79accad1e0.jpg">
+    <style>
+        /* RESET E SFONDO COERENTE CON IL SITO */
+        body {
+            background-color: #050505;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)),
+                url('https://i.pinimg.com/1200x/a5/7c/aa/a57caa28dda362043d8dc749836aae7d.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* TITOLO STILE RETRO-FANTASY */
+        .header-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .main-logo-title {
+            font-family: 'Cinzel', serif;
+            font-size: 45px;
+            background: linear-gradient(to bottom, #fff3a3, #ffd700, #b8860b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+        }
+
+        /* LAYOUT PRINCIPALE */
+        .main-wrapper {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        /* SCACCHIERA 3D AGGIORNATA */
+        .chess-3d-wrapper {
+            perspective: 1000px;
+        }
+
+        .chess-container {
+            display: grid;
+            grid-template-columns: repeat(8, 55px);
+            grid-template-rows: repeat(8, 55px);
+            border: 12px solid #2a1a0a;
+            background-color: #000;
+            transform: rotateX(20deg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+            user-select: none;
+        }
+
+        .t {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            width: 55px;
+            height: 55px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Colori caselle con texture */
+        .w {
+            background: #d2b48c;
+            background-image: url('https://www.transparenttextures.com/patterns/penta.png');
+        }
+
+        .b {
+            background: #3e2723;
+            background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png');
+        }
+
+        /* Pezzi cliccabili (Dorati e con Aura) */
+        .t a,
+        .gold-piece {
+            text-decoration: none;
+            color: #FFD700 !important;
+            z-index: 5;
+            transition: 0.3s;
+            display: block;
+            animation: gold-glow 2.5s infinite ease-in-out;
+        }
+
+        @keyframes gold-glow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 2px #FFD700);
+            }
+
+            50% {
+                filter: drop-shadow(0 0 10px #FFD700);
+            }
+        }
+
+        /* ISTRUZIONI STILIZZATE */
+        .istruzioni-box {
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #eee;
+            border-left: 5px solid #FFD700;
+            width: 350px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .istruzioni-box h3 {
+            font-family: 'Cinzel';
+            color: #FFD700;
+            margin-top: 0;
+        }
+
+        /* MENU ALFIERE */
+        .bishop-trigger {
+            font-size: 45px;
+            color: #FFD700;
+            cursor: pointer;
+            position: fixed;
+            top: 15px;
+            right: 25px;
+            z-index: 1001;
+            transition: 0.4s;
+        }
+
+        .menu {
+            display: none;
+            position: fixed;
+            top: 75px;
+            right: 25px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid #FFD700;
+            width: 200px;
+            z-index: 1000;
+        }
+
+        .menu a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px;
+            border-bottom: 1px solid #222;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            background: #FFD700;
+            color: #000;
+        }
+
+        /* LOGICA MOVIMENTO (Pallini e Selezione) */
+        .selected {
+            background-color: #f7f769 !important;
+            /*colore giallo del pezzo una volta selezionato*/
+        }
+
+        .attivo {
+            color: #FFD700 !important;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        .path::after {
+            /*crea il pallino*/
+            content: "";
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 0, 0, 0.7);
+            border-radius: 50%;
+            /*lo rende un cerchio*/
+            position: absolute;
+            /*sovrappone alla casella*/
+            z-index: 1;
+        }
+
+        .t a {
+            text-decoration: none;
+            color: inherit;
+            z-index: 5;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="header-container">
+        <h1 class="main-logo-title">IL GIOCO DEGLI SCACCHI</h1>
+    </div>
+
+    <div class="bishop-trigger" onclick="toggleMenu()">♗</div>
+
+    <div id="menu" class="menu">
+        <a href="index.html">♙ Home</a>
+        <a href="storia.html">♙ La Storia</a>
+        <a href="pagina2.html">♙ Pagina 2</a>
+        <a href="pagina3.html">♙ Pagina 3</a>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="chess-3d-wrapper">
+            <div class="chess-container" id="board">
+                <div class="t w"><a href="torre.html">♜</a></div>
+                <div class="t b"><a href="cavallo.html">♞</a></div>
+                <div class="t w" style="color:#fff">♝</div>
+                <div class="t b"><a href="regina.html">♛</a></div>
+                <div class="t w"><a href="re.html">♚</a></div>
+                <div class="t b"style="color:#fff">♝</div>
+                <div class="t w"><a href="cavallo.html">♞</a></div>
+                <div class="t b"><a href="torre.html">♜</a></div>
+                <div class="t b">♟</div>
+                <div class="t w">♟</div>
+                <div class="t b">♟</div>
+                <div class="t w">♟</div>
+                <div class="t b">♟</div>
+                <div class="t w">♟</div>
+                <div class="t b">♟</div>
+                <div class="t w">♟</div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t b"></div>
+                <div class="t w"></div>
+                <div class="t w"><span class="gold-piece">♙</span></div>
+                <div class="t b"><span class="gold-piece">♙</span></div>
+                <div class="t w"><span class="gold-piece">♙</span></div>
+                <div class="t b"><span class="gold-piece">♙</span></div>
+                <div class="t w"><span class="gold-piece">♙</span></div>
+                <div class="t b"><span class="gold-piece">♙</span></div>
+                <div class="t w"><span class="gold-piece">♙</span></div>
+                <div class="t b"><span class="gold-piece">♙</span></div>
+                <div class="t b"><a href="torre.html">♖</a></div>
+                <div class="t w"><a href="cavallo.html">♘</a></div>
+                <div class="t b"><a href="alfiere.html">♗</a></div>
+                <div class="t w"><a href="regina.html">♕</a></div>
+                <div class="t b"><a href="re.html">♔</a></div>
+                <div class="t w"><a href="alfiere.html">♗</a></div>
+                <div class="t b"><a href="cavallo.html">♘</a></div>
+                <div class="t w"><a href="torre.html">♖</a></div>
+            </div>
+        </div>
+
+        <div class="istruzioni-box">
+            <h3>Tutorial Alfiere:</h3>
+            <p>1. Muovi un <strong>Pedone</strong> per aprire la diagonale.</p>
+            <p>2. Clicca sull'<strong>Alfiere</strong> e segui i pallini rossi.</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() { document.getElementById("menu").classList.toggle("show"); }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tiles = document.querySelectorAll('.t'); //seleziona le 64 caselle
+            let selected = null; //variabile per memorizzare la scelta
+
+            tiles.forEach((tile, index) => {
+                tile.addEventListener('click', () => {
+                    const piece = tile.innerText.trim(); //legge il simbolo
+                    if (tile.classList.contains('path')) { //serve per lo spostamento sui pallini rossi 
+                        movePiece(tile);
+                        return;
+                    }
+                    resetBoard(); //pulisce il tutto se i pezzi cliccati sono alfiere o pedone
+                    if (['♗', '♝', '♙', '♟'].includes(piece)) {
+                        selected = { el: tile, idx: index, type: piece };
+                        tile.classList.add('selected');
+                        tile.classList.add('attivo');
+                        //calcola la mossa in base al pezzo
+                        if (piece === '♗' || piece === '♝') showBishopMoves(index);
+                        if (piece === '♙') showPawnMoves(index, -1);
+                        if (piece === '♟') showPawnMoves(index, 1);
+                    }
+                });
+            });
+
+            //calcolo della mossa dell'alfiere
+            function showBishopMoves(idx) {
+                const r = Math.floor(idx / 8), c = idx % 8; //converte le cordinate in riga e colonna
+                const dirs = [[1, 1], [1, -1], [-1, 1], [-1, -1]]; //le 4 diagonali che può fare
+                dirs.forEach(d => {
+                    let nr = r + d[0], nc = c + d[1];
+                    while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) { //serve per non uscire dalla scacchiera
+                        const t = tiles[nr * 8 + nc];
+                        if (t.innerText.trim() !== "") break; //serve per non fare saltare i pezzi sulla scacchiera
+                        t.classList.add('path'); //aggiunta pallino
+                        nr += d[0]; nc += d[1];
+                    }
+                });
+            }
+
+            //serve per il pedone
+            function showPawnMoves(idx, dir) {
+                const r = Math.floor(idx / 8), c = idx % 8;
+                let nr = r + dir;
+                //se la casella davanti è libera
+                if (nr >= 0 && nr < 8 && tiles[nr * 8 + c].innerText.trim() === "") {
+                    tiles[nr * 8 + c].classList.add('path');
+                    //ciclo per capire se è la prima mossa quindi può fare due salti
+                    if ((dir === -1 && r === 6) || (dir === 1 && r === 1)) {
+                        let nr2 = r + (dir * 2);
+                        if (tiles[nr2 * 8 + c].innerText.trim() === "") tiles[nr2 * 8 + c].classList.add('path');
+                    }
+                }
+            }
+
+            //funzione che permette lo spostamento fisico
+            function movePiece(target) {
+                target.innerHTML = selected.el.innerHTML; //memorizza il pezzo della nuova casella
+                selected.el.innerHTML = ""; //svuota la vecchia
+                resetBoard();
+            }
+
+            function resetBoard() {
+                tiles.forEach(t => t.classList.remove('selected', 'path', 'attivo'));
+                selected = null;
+            }
+        });
+    </script>
+</body>
+
+</html>

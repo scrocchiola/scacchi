@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Gioco degli Scacchi - Elite Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpeg" href="https://i.pinimg.com/736x/a4/bc/bf/a4bcbfd99f9a6b7495db199a24871999.jpg">
+</head>
+
+<body>
+
+    <div class="loader">
+        <div class="queen">♛</div>
+        <div class="progress-bar">
+            <div class="rook-loader">♜</div>
+        </div>
+    </div>
+
+    <div id="main-content">
+
+        <div class="header-wrapper">
+            <div class="header-container">
+                <div class="gate-container left"><span class="tower-icon">♜</span></div>
+                <div class="title-scia-wrapper">
+                    <h1 class="main-title">Il Gioco degli Scacchi</h1>
+                    <div class="scia-effect"></div>
+                </div>
+                <div class="gate-container right"><span class="tower-icon">♜</span></div>
+            </div>
+
+            <div class="news-ticker">
+                <div class="ticker-label">ULTIME NEWS</div>
+                <div class="ticker-content">
+                    <div class="ticker-track" id="news-container">
+                        <span>Caricamento notizie in corso...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bishop-trigger" onclick="toggleMenu()">♗</div>
+        <div id="menu" class="menu">
+            <a href="storia.html">♙ La Storia</a>
+            <a href="come_giocare.html">♙ Come si gioca</a>
+        </div>
+
+        <div class="main-layout">
+            <div class="chess-3d-wrapper">
+                <div class="chess-container realism">
+                    <div class="t w">♜</div>
+                    <div class="t b">♞</div>
+                    <div class="t w">♝</div>
+                    <div class="t b">♛</div>
+                    <div class="t w">♚</div>
+                    <div class="t b">♝</div>
+                    <div class="t w">♞</div>
+                    <div class="t b">♜</div>
+                    <div class="t b">♟</div>
+                    <div class="t w">♟</div>
+                    <div class="t b">♟</div>
+                    <div class="t w">♟</div>
+                    <div class="t b">♟</div>
+                    <div class="t w">♟</div>
+                    <div class="t b">♟</div>
+                    <div class="t w">♟</div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t b"></div>
+                    <div class="t w"></div>
+                    <div class="t w"><a href="pedone.html" class="gold-link">♙</a></div>
+                    <div class="t b"><a href="pedone.html" class="gold-link">♙</a></div>
+                    <div class="t w"><a href="pedone.html" class="gold-link">♙</a></div>
+                    <div class="t b"><a href="pedone.html" class="gold-link">♙</a></div>
+                    <div class="t w"><a href="pedone.html" class="gold-link">♙</a></div>
+                    <div class="t b"><a href="pedone.html" class="gold-link">♙</a></div>
+                    <div class="t w"><a href="pedone.html" class="gold-link">♙</a></div>
+                    <div class="t b"><a href="pedone.html" class="gold-link">♙</a></div>
+                    <div class="t b"><a href="torre.html" class="gold-link">♖</a></div>
+                    <div class="t w"><a href="cavallo.html" class="gold-link">♘</a></div>
+                    <div class="t b"><a href="alfiere.html" class="gold-link">♗</a></div>
+                    <div class="t w"><a href="regina.html" class="gold-link">♕</a></div>
+                    <div class="t b"><a href="re.html" class="gold-link">♔</a></div>
+                    <div class="t w"><a href="alfiere.html" class="gold-link">♗</a></div>
+                    <div class="t b"><a href="cavallo.html" class="gold-link">♘</a></div>
+                    <div class="t w"><a href="torre.html" class="gold-link">♖</a></div>
+                </div>
+            </div>
+
+            <div class="istruzioni-box">
+                <h3>SISTEMA TATTICO</h3>
+                <p>I pezzi con <strong>aura dorata</strong> pulsante sono interattivi.</p>
+                <p>Selezionane uno per studiarne il <strong>movimento strategico</strong> sul campo di battaglia.</p>
+            </div>
+        </div>
+
+        <div class="shop-section">
+            <h2 class="shop-title">Arsenale di Lusso</h2>
+            <div class="shop-grid">
+                <div class="shop-card">
+                    <div class="product-image"
+                        style="background-image: url('https://images.unsplash.com/photo-1586165368502-1bad197a6461?q=80&w=500&auto=format&fit=crop');">
+                    </div>
+                    <div class="product-info">
+                        <h4>Set Ebano & Avorio</h4>
+                        <p>Legno pregiato intagliato a mano.</p>
+                        <span class="price">€ 249.00</span>
+                        <button class="buy-btn">Acquista</button>
+                    </div>
+                </div>
+                <div class="shop-card">
+                    <div class="product-image"
+                        style="background-image: url('https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&w=500&auto=format&fit=crop');">
+                    </div>
+                    <div class="product-info">
+                        <h4>Marmo di Carrara</h4>
+                        <p>Scacchiera in marmo bianco e nero.</p>
+                        <span class="price">€ 450.00</span>
+                        <button class="buy-btn">Acquista</button>
+                    </div>
+                </div>
+                <div class="shop-card">
+                    <div class="product-image"
+                        style="background-image: url('https://images.unsplash.com/photo-1611195974226-a6a9be9dd763?q=80&w=500&auto=format&fit=crop');">
+                    </div>
+                    <div class="product-info">
+                        <h4>Edizione Titanio</h4>
+                        <p>Pezzi in metallo satinato ultra-moderni.</p>
+                        <span class="price">€ 890.00</span>
+                        <button class="buy-btn">Acquista</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        async function caricaNews() {
+            const newsContainer = document.getElementById('news-container');
+            const targetRSS = "https://api.rss2json.com/v1/api.json?rss_url=https://www.chess.com/rss/news";
+            const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(targetRSS)}`;
+            try {
+                const response = await fetch(proxyURL);
+                const rawData = await response.json();
+                const data = JSON.parse(rawData.contents);
+                if (data.status === 'ok') {
+                    let html = data.items.map(item => `<span>• ${item.title.toUpperCase()}</span>`).join("");
+                    newsContainer.innerHTML = html + html;
+                }
+            } catch (e) {
+                const fallback = "<span>• BENVENUTO NELL'ELITE DEGLI SCACCHI • SCOPRI LE STRATEGIE DEI GRANDI MAESTRI • NUOVI TORNEI 2026 IN ARRIVO</span>";
+                newsContainer.innerHTML = fallback + fallback;
+            }
+        }
+
+        window.addEventListener("load", function () {
+            caricaNews();
+            const loader = document.querySelector(".loader");
+            const mainContent = document.getElementById("main-content");
+            const header = document.querySelector(".header-container");
+
+            setTimeout(() => {
+                loader.classList.add("loader-fade-out");
+                setTimeout(() => {
+                    loader.style.display = "none";
+                    mainContent.style.display = "block";
+                    setTimeout(() => {
+                        mainContent.style.opacity = "1";
+                        header.classList.add("open-gates");
+                    }, 100);
+                }, 1000);
+            }, 4000);
+        });
+
+        function toggleMenu() { document.getElementById("menu").classList.toggle("show"); }
+    </script>
+</body>
+
+</html>

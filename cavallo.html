@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tutorial Scacchi: Il Cavallo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpeg" href="https://i.pinimg.com/736x/e1/7c/2d/e17c2df1b864d4149bfeab183945e75e.jpg">
+    <style>
+        /* SFONDO E LAYOUT BASE (Coerente con Alfiere) */
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Contenuto a sinistra */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* HEADER TITOLO (Tabella semitrasparente centrata) */
+        .header-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        /* MAIN CONTENT WRAPPER (Allineato a sinistra) */
+        .main-wrapper {
+            padding: 20px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* LA SCACCHIERA */
+        .chess-container {
+            display: grid;
+            grid-template-columns: repeat(8, 40px);
+            grid-template-rows: repeat(8, 40px);
+            border: 3px solid #333;
+            user-select: none;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .t {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            width: 40px;
+            height: 40px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Colori Caselle */
+        .w { background-color: #d3d3d3; } /* Chiara */
+        .b { background-color: #000000; } /* Scura */
+
+        /* ISTRUZIONI (Box bianco) */
+        .istruzioni-box {
+            padding: 20px;
+            background-color: white;
+            color: #333;
+            border-left: 5px solid #FFD700; /* Bordo Giallo/Oro */
+            width: 320px;
+            border-radius: 4px;
+        }
+
+        .istruzioni-box h3 { margin-top: 0; color: #333; }
+        .istruzioni-box p { font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
+
+         /* MENU ALFIERE - STILE INDEX IDENTICO */
+        .bishop-trigger {
+            font-size: 45px;
+            color: #FFD700;
+            cursor: pointer;
+            position: fixed;
+            top: 15px;
+            right: 25px;
+            z-index: 1001;
+            transition: 0.4s;
+        }
+
+        .bishop-trigger:hover {
+            transform: rotate(25deg) scale(1.2);
+            color: #fff;
+            text-shadow: 0 0 25px #FFD700;
+        }
+
+        .menu {
+            display: none;
+            position: fixed;
+            top: 75px;
+            right: 25px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid #FFD700;
+            width: 200px;
+            z-index: 1000;
+        }
+
+        .menu.show {
+            display: block;
+        }
+
+        .menu a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px;
+            border-bottom: 1px solid #222;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .menu a:hover {
+            background: #FFD700;
+            color: #000;
+            padding-left: 25px;
+        }
+
+        /* LOGICA MOVIMENTO (Effetti visivi) */
+        .selected { background-color: #f7f769 !important; } /* Casella gialla */
+        .attivo { color: #FFD700 !important; text-shadow: 1px 1px 2px black; } /* Pezzo oro */
+        
+        /* Pallino Rosso per mossa legale */
+        .path::after {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 0, 0, 0.7); /* Rosso semitrasparente */
+            border-radius: 50%;
+            position: absolute;
+            z-index: 1;
+        }
+        
+        /* Assicura che i link (altri pezzi) siano cliccabili */
+        .t a { text-decoration: none; color: inherit; z-index: 5; }
+        
+        /* Bottone Home nelle istruzioni */
+        .btn-home { display: inline-block; margin-top: 10px; color: #007bff; text-decoration: none; font-weight: bold; font-size: 14px; }
+    </style>
+</head>
+
+<body class="pagina-cavallo">
+
+    <div class="header-container">
+        <table bgcolor="#FFFFFF" width="90%" border="0" cellpadding="0" cellspacing="0"
+            style="opacity:0.7; margin-top:20px; max-width:1500px;">
+            <tr>
+                <td align="center" valign="middle" style="padding: 20px;">
+                    <font face="Fantasy" color="#000000" size="7">LA MOSSA DEL CAVALLO</font>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+     <div class="bishop-trigger" onclick="toggleMenu()">♗</div>
+    <div id="menu" class="menu">
+        <a href="storia.html">♙ La Storia</a>
+        <a href="come_giocare.html">♙ Come si gioca</a>
+        <a href="pagina3.html">♙ Pagina 3</a>
+        <a href="pagina4.html">♙ Pagina 4</a>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="chess-container" id="board">
+            <div class="t w"><a href="torre.html">♜</a></div>
+            <div class="t b">♞</div> <div class="t w"><a href="alfiere.html">♝</a></div>
+            <div class="t b"><a href="regina.html">♛</a></div>
+            <div class="t w"><a href="re.html">♚</a></div>
+            <div class="t b"><a href="alfiere.html">♝</a></div>
+            <div class="t w">♞</div> <div class="t b"><a href="torre.html">♜</a></div>
+            
+            <div class="t b">♟</div><div class="t w">♟</div><div class="t b">♟</div><div class="t w">♟</div>
+            <div class="t b">♟</div><div class="t w">♟</div><div class="t b">♟</div><div class="t w">♟</div>
+            
+            <div class="t w"></div><div class="t b"></div><div class="t w"></div><div class="t b"></div><div class="t w"></div><div class="t b"></div><div class="t w"></div><div class="t b"></div>
+            <div class="t b"></div><div class="t w"></div><div class="t b"></div><div class="t w"></div><div class="t b"></div><div class="t w"></div><div class="t b"></div><div class="t w"></div>
+            <div class="t w"></div><div class="t b"></div><div class="t w"></div><div class="t b"></div><div class="t w"></div><div class="t b"></div><div class="t w"></div><div class="t b"></div>
+            <div class="t b"></div><div class="t w"></div><div class="t b"></div><div class="t w"></div><div class="t b"></div><div class="t w"></div><div class="t b"></div><div class="t w"></div>
+            
+            <div class="t w">♙</div><div class="t b">♙</div><div class="t w">♙</div><div class="t b">♙</div>
+            <div class="t w">♙</div><div class="t b">♙</div><div class="t w">♙</div><div class="t b">♙</div>
+            
+            <div class="t b"><a href="torre.html">♖</a></div>
+            <div class="t w">♘</div> <div class="t b"><a href="alfiere.html">♗</a></div>
+            <div class="t w"><a href="regina.html">♕</a></div>
+            <div class="t b"><a href="re.html">♔</a></div>
+            <div class="t w"><a href="alfiere.html">♗</a></div>
+            <div class="t b">♘</div> <div class="t w"><a href="torre.html">♖</a></div>
+        </div>
+
+        <div class="istruzioni-box">
+            <h3>Tutorial Cavallo:</h3>
+            <p>Il Cavallo si muove a forma di "L": due caselle in una direzione (orizzontale o verticale) e poi una casella a 90 gradi.</p>
+            <p><strong>Caratteristica unica:</strong> È l'unico pezzo che può <em>saltare</em> sopra gli altri pezzi (amici o nemici)! Non serve liberargli la strada.</p>
+            <p>1. Clicca su un <strong>Cavallo (♘ o ♞)</strong>.</p>
+            <p>2. Clicca sul pallino rosso per muoverlo.</p>
+            
+        </div>
+    </div>
+
+    <script>
+        // Funzione per il Menu (Identica)
+       function toggleMenu() { document.getElementById("menu").classList.toggle("show"); }
+
+        // Logica di Movimento Specifica per il Cavallo
+        document.addEventListener('DOMContentLoaded', () => {
+            const tiles = document.querySelectorAll('.t');
+            let selected = null; // Memorizza il cavallo selezionato
+
+            tiles.forEach((tile, index) => {
+                tile.addEventListener('click', () => {
+                    const piece = tile.innerText.trim();
+
+                    // --- CASO 1: Clicco su un pallino rosso (Mossa Legale) ---
+                    if (tile.classList.contains('path')) {
+                        movePiece(tile);
+                        return;
+                    }
+
+                    resetBoard(); // Pulisce la scacchiera se clicco altrove
+
+                    // --- CASO 2: Clicco su un Cavallo (Bianco o Nero) ---
+                    if (piece === '♘' || piece === '♞') {
+                        selected = { el: tile, idx: index };
+                        tile.classList.add('selected'); // Casella gialla
+                        tile.classList.add('attivo');   // Pezzo oro
+                        showKnightMoves(index);          // Calcola i salti
+                    }
+                });
+            });
+
+            // Calcola i salti a "L" del Cavallo
+            function showKnightMoves(idx) {
+                const r = Math.floor(idx / 8); // Riga di partenza (0-7)
+                const c = idx % 8;             // Colonna di partenza (0-7)
+
+                // Le 8 possibili destinazioni relative della "L" [deltaRiga, deltaColonna]
+                const jumps = [
+                    [-2, -1], [-2, 1], // 2 su, 1 sx/dx
+                    [-1, -2], [-1, 2], // 1 su, 2 sx/dx
+                    [1, -2],  [1, 2],  // 1 giù, 2 sx/dx
+                    [2, -1],  [2, 1]   // 2 giù, 1 sx/dx
+                ];
+
+                jumps.forEach(j => {
+                    let nr = r + j[0]; // Nuova Riga
+                    let nc = c + j[1]; // Nuova Colonna
+
+                    // Controlla se la destinazione è dentro la scacchiera
+                    if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
+                        const targetIdx = nr * 8 + nc;
+                        const targetTile = tiles[targetIdx];
+                        
+                        // Negli scacchi, il cavallo salta. Mostriamo il pallino se la casella è VUOTA.
+                        // (Nota: per semplicità non gestiamo la cattura dei pezzi nemici qui)
+                        if (targetTile.innerText.trim() === "") {
+                            targetTile.classList.add('path'); // Aggiunge pallino rosso
+                        }
+                    }
+                });
+            }
+
+            // Sposta fisicamente il cavallo
+            function movePiece(target) {
+                if (!selected) return;
+                target.innerHTML = selected.el.innerHTML; // Sposta il simbolo
+                selected.el.innerHTML = "";              // Svuota partenza
+                resetBoard(); // Pulisce grafica
+            }
+
+            // Resetta la grafica della scacchiera
+            function resetBoard() {
+                tiles.forEach(t => t.classList.remove('selected', 'path', 'attivo'));
+                selected = null;
+            }
+        });
+    </script>
+</body>
+</html>

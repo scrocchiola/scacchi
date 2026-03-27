@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Storia degli Scacchi - Elite Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpeg" href="https://i.pinimg.com/736x/a4/bc/bf/a4bcbfd99f9a6b7495db199a24871999.jpg">
+
+    <style>
+        /* --- PAGINA STORIA: LAYOUT --- */
+        .storia-page {
+            /* Sovrascrive il display none del main-content per questa pagina */
+            opacity: 1 !important;
+        }
+
+        .main-layout-storia {
+            display: flex;
+            justify-content: center;
+            padding: 60px 10%;
+            animation: fadeInPage 1.5s ease-out;
+        }
+
+        .storia-content {
+            width: 100%;
+            max-width: 850px;
+            /* Più largo per facilitare la lettura */
+            border-radius: 15px !important;
+            /* Arrotondato su tutti i lati */
+            border-right: 1px solid rgba(255, 215, 0, 0.2) !important;
+            padding: 40px !important;
+        }
+
+        .storia-content h3 {
+            margin-top: 35px;
+            font-size: 22px;
+        }
+
+        .storia-content p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            text-align: justify;
+            /* Testo pulito e allineato */
+            font-weight: 300;
+        }
+
+        /* PULSANTE RITORNO */
+        .storia-footer {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .back-button {
+            display: inline-block;
+            color: #FFD700;
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            letter-spacing: 3px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            padding: 12px 25px;
+            transition: all 0.4s ease;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .back-button:hover {
+            background: #FFD700;
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInPage {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsività per la storia */
+        @media (max-width: 768px) {
+            .storia-content {
+                padding: 20px !important;
+            }
+
+            .storia-content p {
+                font-size: 16px;
+            }
+        }
+
+        /* MENU ALFIERE */
+        .bishop-trigger {
+            font-size: 45px;
+            color: #FFD700;
+            cursor: pointer;
+            position: fixed;
+            top: 15px;
+            right: 25px;
+            z-index: 1001;
+            transition: 0.4s;
+        }
+
+        .menu {
+            display: none;
+            position: fixed;
+            top: 75px;
+            right: 25px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid #FFD700;
+            width: 200px;
+            z-index: 1000;
+        }
+
+        .menu a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px;
+            border-bottom: 1px solid #222;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            background: #FFD700;
+            color: #000;
+        }
+
+        /* --- TABELLA MONDIALI INTERATTIVA --- */
+        .tabella-mondiali {
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .mondiale-row {
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            transition: background 0.3s;
+        }
+
+        .mondiale-row:hover {
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .mondiale-row summary {
+            padding: 15px;
+            list-style: none;
+            /* Rimuove il triangolino standard */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+        }
+
+        /* Rimuove freccia su Safari */
+        .mondiale-row summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .mondiale-row .anno {
+            color: #FFD700;
+            font-weight: bold;
+            width: 60px;
+        }
+
+        .mondiale-row .vincitore {
+            flex-grow: 1;
+            text-align: left;
+            padding-left: 20px;
+            color: #fff;
+        }
+
+        .mondiale-row .freccia {
+            color: #FFD700;
+            transition: transform 0.3s;
+        }
+
+        /* Ruota la freccia quando aperto */
+        .mondiale-row[open] .freccia {
+            transform: rotate(180deg);
+        }
+
+        /* Box dettagli interno */
+        .dettagli-mondiale {
+            padding: 15px 15px 20px 80px;
+            background: rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            line-height: 1.8;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        .dettagli-mondiale p {
+            margin: 5px 0 !important;
+            text-align: left !important;
+            /* Sovrascrive il justify del box storia */
+        }
+
+        .dettagli-mondiale strong {
+            color: #FFD700;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="storia-page">
+
+    <div class="bishop-trigger" onclick="toggleMenu()">♗</div>
+    <div id="menu" class="menu">
+        <a href="index.html">♙ Home</a>
+        <a href="come_giocare.html">♙ Come si gioca</a>
+    </div>
+
+    <div class="header-wrapper">
+        <div class="header-container open-gates">
+            <div class="gate-container left"><span class="tower-icon">♜</span></div>
+            <div class="title-scia-wrapper">
+                <h1 class="main-title">Storia e Gloria</h1>
+                <div class="scia-effect"></div>
+            </div>
+            <div class="gate-container right"><span class="tower-icon">♜</span></div>
+        </div>
+    </div>
+
+    <div class="main-layout-storia">
+        <div class="istruzioni-box storia-content">
+
+            <div class="storia-narrativa">
+                <h3>IL SUSSURRO DELL'INDIA</h3>
+                <p>Tutto ebbe inizio nel VI secolo con il <strong>Chaturanga</strong>. Non era solo un gioco, ma una
+                    mappa di guerra che divideva l'esercito in quattro reparti: fanteria, cavalleria, carri ed elefanti.
+                    Ogni mossa era un battito del cuore della strategia antica.</p>
+
+                <p>Dalle sabbie dell'India, il gioco viaggiò verso la Persia, dove i nobili lo chiamarono
+                    <strong>Shatranj</strong>. Qui, il destino del sovrano veniva deciso dal grido <em>"Shah Mat"</em> —
+                    il Re è indifeso.</p>
+
+                <h3>L'EUROPA E LA REGINA</h3>
+                <p>Nel XV secolo avvenne la vera rivoluzione: il pezzo più debole, il visir, si trasformò nella
+                    <strong>Regina</strong>, dotata di un potere d'attacco senza precedenti. Gli scacchi divennero
+                    rapidi, letali e moderni, simbolo supremo dell'<strong>intelletto umano</strong>.</p>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid rgba(255, 215, 0, 0.2); margin: 40px 0;">
+
+            <h3>ALBO D'ORO DEI MONDIALI</h3>
+            <p>Seleziona un'era per svelare i dettagli del campo di battaglia.</p>
+
+            <div class="tabella-mondiali">
+
+                <details class="mondiale-row">
+                    <summary>
+                        <span class="anno">1972</span>
+                        <span class="vincitore">Bobby Fischer</span>
+                        <span class="freccia">▾</span>
+                    </summary>
+                    <div class="dettagli-mondiale">
+                        <p><strong>Luogo:</strong> Reykjavík, Islanda</p>
+                        <p><strong>Finale:</strong> Fischer vs Spassky</p>
+                        <p><strong>Risultato:</strong> 12½ – 8½</p>
+                        <p><strong>Tempo:</strong> Classico (2h per 40 mosse)</p>
+                    </div>
+                </details>
+
+                <details class="mondiale-row">
+                    <summary>
+                        <span class="anno">1985</span>
+                        <span class="vincitore">Garry Kasparov</span>
+                        <span class="freccia">▾</span>
+                    </summary>
+                    <div class="dettagli-mondiale">
+                        <p><strong>Luogo:</strong> Mosca, URSS</p>
+                        <p><strong>Finale:</strong> Kasparov vs Karpov</p>
+                        <p><strong>Risultato:</strong> 13 – 11</p>
+                        <p><strong>Tempo:</strong> Classico</p>
+                    </div>
+                </details>
+
+                <details class="mondiale-row">
+                    <summary>
+                        <span class="anno">2013</span>
+                        <span class="vincitore">Magnus Carlsen</span>
+                        <span class="freccia">▾</span>
+                    </summary>
+                    <div class="dettagli-mondiale">
+                        <p><strong>Luogo:</strong> Chennai, India</p>
+                        <p><strong>Finale:</strong> Carlsen vs Anand</p>
+                        <p><strong>Risultato:</strong> 6½ – 3½</p>
+                        <p><strong>Tempo:</strong> Classico + Rapid tie-break</p>
+                    </div>
+                </details>
+
+                <details class="mondiale-row">
+                    <summary>
+                        <span class="anno">2023</span>
+                        <span class="vincitore">Ding Liren</span>
+                        <span class="freccia">▾</span>
+                    </summary>
+                    <div class="dettagli-mondiale">
+                        <p><strong>Luogo:</strong> Astana, Kazakistan</p>
+                        <p><strong>Finale:</strong> Ding vs Nepomniachtchi</p>
+                        <p><strong>Risultato:</strong> 7(2½) – 7(1½)</p>
+                        <p><strong>Tempo:</strong> Classico + Spareggi Rapid</p>
+                    </div>
+                </details>
+
+            </div>
+
+            <div class="storia-footer">
+                <a href="index.html" class="back-button">← RITORNA AL CAMPO DI BATTAGLIA</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("menu").classList.toggle("show");
+        }
+
+        // Accordion: chiude gli altri quando uno si apre
+        const rows = document.querySelectorAll(".mondiale-row");
+        rows.forEach((row) => {
+            row.addEventListener("toggle", () => {
+                if (row.open) {
+                    rows.forEach((otherRow) => {
+                        if (otherRow !== row) otherRow.open = false;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
